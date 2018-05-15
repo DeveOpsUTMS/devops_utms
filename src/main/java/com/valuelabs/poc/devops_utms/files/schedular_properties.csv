@@ -1,0 +1,4 @@
+JiraService,syncJiraInfo()
+GitService,readGitHubData()
+JenkinService,retrieveJenkinJobs()
+RundeckService,retriveExecutions()
