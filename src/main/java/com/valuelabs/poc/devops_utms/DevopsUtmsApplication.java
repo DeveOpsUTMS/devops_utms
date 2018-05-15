@@ -41,7 +41,7 @@ public class DevopsUtmsApplication extends SpringBootServletInitializer{
 	@Bean(name = "gitHub")
 	GitHub gitHub() throws Exception {
 		GitHub gitHub = null;
-		String userName = "madhu.alishala@valuelabs.com";
+		String userName = "DeveOpsUTMS";
 		//String token = "da3fe296dcde8fc9b506a8dbb397ffc3bdfdef11";
 		String password = "DeveOpsUTMS2";
 		try {
