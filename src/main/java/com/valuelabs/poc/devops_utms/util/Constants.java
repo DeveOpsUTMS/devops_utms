@@ -3,7 +3,7 @@ package com.valuelabs.poc.devops_utms.util;
 public interface Constants {
 	//public static final String JOB_NAME = "TestProj";
 	//public static final String JOB_NAME = "TestJob";
-	public static final String JOB_NAME = "DevOpsProject";
+	public static final String JOB_NAME = "devops_utms";
 	public static final String _ID = "_id";
 	public static final String ALL_BUILDS = "allBuilds";
 	public static final String DOT = ".";
