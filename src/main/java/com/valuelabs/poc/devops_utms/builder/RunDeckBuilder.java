@@ -5,5 +5,3 @@ public class RunDeckBuilder {
 	//public List<Projects>
 	
 }
-Private int id:
-private sprint name;
