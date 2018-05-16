@@ -120,7 +120,7 @@ public class JenkinService  {
 				//jenkinBuild.setBuildResult(build.details().getResult().toString());
 				//jenkinBuild.setTimeStamp(build.details().getTimestamp());
 
-				if(key.equals("DevOpsProject")) {
+				if(key.equals("devops_utms")) {
 					String str=build.details().getConsoleOutputText().toString();
 					System.out.println("2----"+str);
 					String revisionFind = "Revision";
@@ -176,7 +176,7 @@ public class JenkinService  {
 		JenkinBuildC jenkinBuildc = new JenkinBuildC();
 		List<String> commitLt = new ArrayList<>();
 		if(build!=null){
-			if(key.equals("DevOpsProject")) {
+			if(key.equals("devops_utms")) {
 				String str=build.details().getConsoleOutputText().toString();
 				String revisionFind = "Revision";
 				Pattern CommitId = Pattern.compile(revisionFind);
