@@ -42,7 +42,7 @@ public class RundeckService {
 
 	private static final Logger logger = LoggerFactory.getLogger(RundeckService.class);
 
-	@Scheduled(fixedRate = 30000)
+	//@Scheduled(fixedRate = 30000)
 	public void retriveExecutions() throws Exception {
 
 		List<RundeckJob> projectResource = new ArrayList<>();
