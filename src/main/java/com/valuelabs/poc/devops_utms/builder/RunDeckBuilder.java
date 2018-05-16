@@ -6,3 +6,4 @@ public class RunDeckBuilder {
 	
 }
 Private int id:
+private sprint name;
