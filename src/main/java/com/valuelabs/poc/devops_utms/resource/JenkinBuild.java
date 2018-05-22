@@ -14,6 +14,10 @@ public class JenkinBuild {
 	private String date;
 	private long buildDuration;
 	
+	private int totalRegressionCount;
+	private int failedRegressionCount;
+	private int passedRegressionCount;
+	
 	/*
 	public int getBuildId() {
 		return buildId;
@@ -37,6 +41,24 @@ public class JenkinBuild {
 	}
 	*/
 
+	public int getTotalRegressionCount() {
+		return totalRegressionCount;
+	}
+	public void setTotalRegressionCount(int totalRegressionCount) {
+		this.totalRegressionCount = totalRegressionCount;
+	}
+	public int getFailedRegressionCount() {
+		return failedRegressionCount;
+	}
+	public void setFailedRegressionCount(int failedRegressionCount) {
+		this.failedRegressionCount = failedRegressionCount;
+	}
+	public int getPassedRegressionCount() {
+		return passedRegressionCount;
+	}
+	public void setPassedRegressionCount(int passedRegressionCount) {
+		this.passedRegressionCount = passedRegressionCount;
+	}
 	public String getCommitNumber() {
 		return commitNumber;
 	}

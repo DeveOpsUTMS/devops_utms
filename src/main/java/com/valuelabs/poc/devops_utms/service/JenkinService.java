@@ -94,7 +94,7 @@ public class JenkinService  {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new InputSource(new StringReader(jobConfig)));
 			jenkinJob.setSourceCodeRepo(getValueForElement(document, "remote"));
-			JobWithDetails JobWithDetails = job.details();//getting all details
+			JobWithDetails JobWithDetails = job.details();
 			List<Build> builds = JobWithDetails.getAllBuilds();
 			List<JenkinBuild> JenkinBuildList = new ArrayList<JenkinBuild>();
 			for(Build build : builds){
@@ -115,11 +115,23 @@ public class JenkinService  {
 		private JenkinBuild getJenkinBuild(Build build, String key) throws Exception{
 			JenkinBuild jenkinBuild = new JenkinBuild();
 			List<String> commitLt = new ArrayList<>();
+			logger.info("<<<---- y=testing started--->>>");
 			if(build!=null && build.details() != null){
 				//jenkinBuild.setBuildId(build.getNumber());
 				//jenkinBuild.setBuildResult(build.details().getResult().toString());
 				//jenkinBuild.setTimeStamp(build.details().getTimestamp());
 
+				System.out.println("key  "+key);
+				if(key.equals("DeveOpsAutomation")){
+					if(build.getTestReport() != null){
+						
+						jenkinBuild.setTotalRegressionCount(build.getTestReport().getTotalCount());
+						jenkinBuild.setFailedRegressionCount(build.getTestReport().getFailCount());
+						int passedCount = build.getTestReport().getTotalCount() - build.getTestReport().getFailCount();
+						jenkinBuild.setPassedRegressionCount(passedCount);
+						
+					}
+				}
 				if(key.equals("devops_utms")) {
 					String str=build.details().getConsoleOutputText().toString();
 					System.out.println("2----"+str);
@@ -146,7 +158,7 @@ public class JenkinService  {
 			return jenkinBuild;
 		}
 
-	//@Scheduled(fixedRate=550000)
+	@Scheduled(fixedRate=55000)
 	public void retrieveJenkinJobsBuildCommit() throws Exception {
 		JenkinsServer jenkins = new JenkinsServer(new URI(jenkinURL), jenkinUser, jenkinPwd);
 		Map<String, Job> jobs = jenkins.getJobs();
@@ -176,6 +188,7 @@ public class JenkinService  {
 		JenkinBuildC jenkinBuildc = new JenkinBuildC();
 		List<String> commitLt = new ArrayList<>();
 		if(build!=null){
+			
 			if(key.equals("devops_utms")) {
 				String str=build.details().getConsoleOutputText().toString();
 				String revisionFind = "Revision";
