@@ -115,16 +115,14 @@ public class JenkinService  {
 		private JenkinBuild getJenkinBuild(Build build, String key) throws Exception{
 			JenkinBuild jenkinBuild = new JenkinBuild();
 			List<String> commitLt = new ArrayList<>();
-			logger.info("<<<---- y=testing started--->>>");
+			logger.info("<<<---- testing started--->>>");
 			if(build!=null && build.details() != null){
 				//jenkinBuild.setBuildId(build.getNumber());
 				//jenkinBuild.setBuildResult(build.details().getResult().toString());
 				//jenkinBuild.setTimeStamp(build.details().getTimestamp());
 
-				System.out.println("key  "+key);
 				if(key.equals("DeveOpsAutomation")){
 					if(build.getTestReport() != null){
-						
 						jenkinBuild.setTotalRegressionCount(build.getTestReport().getTotalCount());
 						jenkinBuild.setFailedRegressionCount(build.getTestReport().getFailCount());
 						int passedCount = build.getTestReport().getTotalCount() - build.getTestReport().getFailCount();
@@ -240,17 +238,47 @@ public class JenkinService  {
 				);
 		AggregationResults<JenkinBuild> groupResults = mongoTemplate.aggregate(aggregations, JenkinJob.class, JenkinBuild.class);
 
-		List<JenkinBuild> builds = groupResults.getMappedResults();
+		List<JenkinBuild> builds = getTestResults(groupResults.getMappedResults());
 		List<JenkinBuild> buildList = new ArrayList<JenkinBuild>();
 		if(builds!= null){
-			buildMap = new LinkedHashMap<String, List<JenkinBuild>>();
-			for(JenkinBuild build : builds){
+			//buildMap = new LinkedHashMap<String, List<JenkinBuild>>();
+			//for(JenkinBuild build : builds){
 				//String strDate = dateFormat.format(new Date(build.getDate()));
-					buildList.add(build);
-			}
+					buildList.addAll(builds);
+			//}
 		}
 
-		return new ResponseEntity<Object>(buildMap != null ? buildList : "", HttpStatus.OK);
+		return new ResponseEntity<Object>(buildList != null ? buildList : "", HttpStatus.OK);
+	}
+	
+	public List<JenkinBuild> getTestResults(List<JenkinBuild> buildList){
+		
+		Aggregation aggregation = Aggregation.newAggregation(
+				Aggregation.project("_class", "jobUrl", "allBuilds"),Aggregation.match(Criteria.where("_id").is("DeveOpsAutomation")));
+		AggregationResults<JenkinJob> groupResults = mongoTemplate.aggregate(aggregation, "jenkinJob", JenkinJob.class);
+
+		List<JenkinJob> builds = groupResults.getMappedResults();
+		List<JenkinBuild> testBuildList = new ArrayList<JenkinBuild>();
+		if(builds!= null && buildList!=null){
+			
+			for(JenkinJob allBuilds:builds){
+				if(allBuilds.getAllBuilds()!=null){
+					for(JenkinBuild build:buildList){//JenkinBuild job:allBuilds.getAllBuilds()
+						for(JenkinBuild job:allBuilds.getAllBuilds()){//JenkinBuild build:buildList
+							build.setFailedRegressionCount(job.getFailedRegressionCount());
+							build.setPassedRegressionCount(job.getPassedRegressionCount());
+							build.setTotalRegressionCount(job.getTotalRegressionCount());
+							testBuildList.add(build);
+							break;
+						}
+					}
+				}
+				
+			}
+			
+		}
+		
+		return testBuildList;
 	}
 	
 	/*public ResponseEntity<Object> getJenkinsBuildInfo()throws Exception {
