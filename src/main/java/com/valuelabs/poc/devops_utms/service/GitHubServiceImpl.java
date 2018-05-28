@@ -119,7 +119,7 @@ public class GitHubServiceImpl implements GitHubService {
 	}
 
 	// Its perfect and new
-	@Scheduled(fixedRate = 6000)
+	//@Scheduled(fixedRate = 6000)
 	public void readGitHubData() {
 		GHRepository repository = null;
 		try {

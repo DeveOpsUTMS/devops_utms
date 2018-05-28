@@ -74,7 +74,7 @@ public class JenkinService  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JenkinService.class);
 
-	@Scheduled(fixedRate=55000)
+	//@Scheduled(fixedRate=55000)
 	public void retrieveJenkinJobs() throws Exception {
 		//System.out.println("jenkinURL " +jenkinURL);
 		//URI uri=new URI(jenkinURL);
@@ -156,7 +156,7 @@ public class JenkinService  {
 			return jenkinBuild;
 		}
 
-	@Scheduled(fixedRate=55000)
+	//@Scheduled(fixedRate=55000)
 	public void retrieveJenkinJobsBuildCommit() throws Exception {
 		JenkinsServer jenkins = new JenkinsServer(new URI(jenkinURL), jenkinUser, jenkinPwd);
 		Map<String, Job> jobs = jenkins.getJobs();
