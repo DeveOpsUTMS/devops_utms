@@ -74,7 +74,7 @@ public class JenkinService  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JenkinService.class);
 
-	//@Scheduled(fixedRate=55000)
+	@Scheduled(fixedRate=55000)
 	public void retrieveJenkinJobs() throws Exception {
 		//System.out.println("jenkinURL " +jenkinURL);
 		//URI uri=new URI(jenkinURL);
@@ -136,6 +136,9 @@ public class JenkinService  {
 					String revisionFind = "Revision";
 					Pattern CommitId = Pattern.compile(revisionFind);
 					Matcher matchCommit = CommitId.matcher(str);
+					
+					System.out.println("1----------------------");
+					System.out.println(build.getTestResult());
 
 					while (matchCommit.find()) {
 						commitLt=Arrays.asList((str.substring(matchCommit.start(), matchCommit.end()+43)).split(" "));
@@ -156,7 +159,7 @@ public class JenkinService  {
 			return jenkinBuild;
 		}
 
-	//@Scheduled(fixedRate=55000)
+	@Scheduled(fixedRate=55000)
 	public void retrieveJenkinJobsBuildCommit() throws Exception {
 		JenkinsServer jenkins = new JenkinsServer(new URI(jenkinURL), jenkinUser, jenkinPwd);
 		Map<String, Job> jobs = jenkins.getJobs();
