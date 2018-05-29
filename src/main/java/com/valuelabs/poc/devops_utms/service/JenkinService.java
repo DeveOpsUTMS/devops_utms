@@ -123,10 +123,25 @@ public class JenkinService  {
 
 				if(key.equals("DeveOpsAutomation")){
 					if(build.getTestReport() != null){
+						System.out.println("Regression test cases ");
 						jenkinBuild.setTotalRegressionCount(build.getTestReport().getTotalCount());
 						jenkinBuild.setFailedRegressionCount(build.getTestReport().getFailCount());
 						int passedCount = build.getTestReport().getTotalCount() - build.getTestReport().getFailCount();
 						jenkinBuild.setPassedRegressionCount(passedCount);
+						
+						
+						
+					}
+				}
+				
+				if(key.equals("UnitTestProject")){
+					if(build.getTestReport() != null ){
+						
+						System.out.println("unit test cases ");
+						jenkinBuild.setTotalUnitTestCasesCount(build.getTestReport().getTotalCount());
+						jenkinBuild.setFailedUnitTestCasesCount(build.getTestReport().getFailCount());
+						int passedCount = build.getTestReport().getTotalCount() - build.getTestReport().getFailCount();
+						jenkinBuild.setPassedUnitTestCasesCount(passedCount);
 						
 					}
 				}
@@ -138,7 +153,13 @@ public class JenkinService  {
 					Matcher matchCommit = CommitId.matcher(str);
 					
 					System.out.println("1----------------------");
-					System.out.println(build.getTestResult());
+					/*if(build.getTestResult() != null ){
+						System.out.println("unit teast cases");
+						int totalCount = build.getTestResult().getFailCount() + build.getTestResult().getPassCount() +build.getTestResult().getSkipCount();
+						jenkinBuild.setTotalUnitTestCasesCount(totalCount);
+						jenkinBuild.setFailedUnitTestCasesCount(build.getTestResult().getFailCount());
+						jenkinBuild.setPassedUnitTestCasesCount(build.getTestResult().getPassCount());
+					}*/
 
 					while (matchCommit.find()) {
 						commitLt=Arrays.asList((str.substring(matchCommit.start(), matchCommit.end()+43)).split(" "));

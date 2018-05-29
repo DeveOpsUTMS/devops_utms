@@ -40,7 +40,7 @@ public class DevopsUtmsApplicationTests {
 	public void getNegativeResult(){
 		assertEquals(-1, add(-2,1));
 	}
-	
+	;
 	@Test
 	public void getPositiveResult(){
 		assertEquals(1, add(2,-1));

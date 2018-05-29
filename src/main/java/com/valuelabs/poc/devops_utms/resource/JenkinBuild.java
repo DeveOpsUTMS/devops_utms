@@ -18,6 +18,10 @@ public class JenkinBuild {
 	private int failedRegressionCount;
 	private int passedRegressionCount;
 	
+	private int totalUnitTestCasesCount;
+	private int failedUnitTestCasesCount;
+	private int passedUnitTestCasesCount;
+	
 	/*
 	public int getBuildId() {
 		return buildId;
@@ -41,6 +45,24 @@ public class JenkinBuild {
 	}
 	*/
 
+	public int getTotalUnitTestCasesCount() {
+		return totalUnitTestCasesCount;
+	}
+	public void setTotalUnitTestCasesCount(int totalUnitTestCasesCount) {
+		this.totalUnitTestCasesCount = totalUnitTestCasesCount;
+	}
+	public int getFailedUnitTestCasesCount() {
+		return failedUnitTestCasesCount;
+	}
+	public void setFailedUnitTestCasesCount(int failedUnitTestCasesCount) {
+		this.failedUnitTestCasesCount = failedUnitTestCasesCount;
+	}
+	public int getPassedUnitTestCasesCount() {
+		return passedUnitTestCasesCount;
+	}
+	public void setPassedUnitTestCasesCount(int passedUnitTestCasesCount) {
+		this.passedUnitTestCasesCount = passedUnitTestCasesCount;
+	}
 	public int getTotalRegressionCount() {
 		return totalRegressionCount;
 	}
