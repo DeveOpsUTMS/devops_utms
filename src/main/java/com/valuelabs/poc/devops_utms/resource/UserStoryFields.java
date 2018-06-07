@@ -140,8 +140,6 @@ public class UserStoryFields implements Serializable {
 		this.project = project;
 	}
 
-	
-
 	public String getUserStoryType() {
 		return userStoryType;
 	}
