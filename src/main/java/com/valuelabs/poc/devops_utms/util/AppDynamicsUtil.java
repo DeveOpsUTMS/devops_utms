@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
@@ -29,6 +30,15 @@ public class AppDynamicsUtil {
 		Nodes nodes = gson.fromJson(jsonString, collectionType);
 
 		return nodes;
+	}
+	
+	public Tiers convertToTiersJson(String jsonString) {
+
+		Type collectionType = new TypeToken<Tiers>() {
+		}.getType();
+		Tiers tiers = gson.fromJson(jsonString, collectionType);
+
+		return tiers;
 	}
 	
 	public HealthRuleViolations convertToHealthRuleViolationsJson(String jsonString) {

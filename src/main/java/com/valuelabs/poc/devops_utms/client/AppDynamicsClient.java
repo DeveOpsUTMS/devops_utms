@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
@@ -43,6 +44,8 @@ public class AppDynamicsClient {
 	private String nodesByApplication;
 	@Value("${appdynamics.health.rule.violations}")
 	private String healthRuleViolations;
+	@Value("${appdynamics.tiers.by.application}")
+	private String tiersByApplication;
 
 	static {
 		List<HttpMessageConverter<?>> messageConverterList = restTemplate.getMessageConverters();
@@ -83,6 +86,22 @@ public class AppDynamicsClient {
 				.getBody();
 
 		return appDynamicsUtil.convertToNodesJson(jsonString);
+	}
+	
+	public Tiers getTiers(int applicationId){
+		
+		UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(baseurl).path(applicationByList)
+				.path(tiersByApplication.replace("{applicationId}", applicationId + ""));
+		HttpHeaders headers = new HttpHeaders();
+		// headers.set("", "");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("output", "JSON");
+
+		String jsonString = restTemplate.exchange(uri.toUriString(), HttpMethod.GET, entity, String.class, map).getBody();
+		
+		return appDynamicsUtil.convertToTiersJson(jsonString);
 	}
 
 	public HealthRuleViolations getHealthRuleViolations(int applicationid) {
