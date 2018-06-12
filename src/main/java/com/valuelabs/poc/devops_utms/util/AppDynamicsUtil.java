@@ -2,14 +2,17 @@ package com.valuelabs.poc.devops_utms.util;
 
 import java.lang.reflect.Type;
 
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
-
+@Component
 public class AppDynamicsUtil {
 	
 	Gson gson  = new Gson();
@@ -49,6 +52,16 @@ public class AppDynamicsUtil {
 		HealthRuleViolations nodes = json.fromJson(jsonString, collectionType);
 
 		return nodes;
+	}
+	
+	public MetricReport convertToMetricReportsJson(String jsonString) {
+
+		Gson json = new GsonBuilder().create();
+		Type collectionType = new TypeToken<MetricReport>() {
+		}.getType();
+		MetricReport metrics = json.fromJson(jsonString, collectionType);
+
+		return metrics;
 	}
 
 }

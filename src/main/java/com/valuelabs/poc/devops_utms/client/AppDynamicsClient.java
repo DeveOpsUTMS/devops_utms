@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 import com.valuelabs.poc.devops_utms.util.AppDynamicsUtil;
 
@@ -46,6 +47,8 @@ public class AppDynamicsClient {
 	private String healthRuleViolations;
 	@Value("${appdynamics.tiers.by.application}")
 	private String tiersByApplication;
+	@Value("${appdynamics.report.metrics}")
+	private String metricUrl;
 
 	static {
 		List<HttpMessageConverter<?>> messageConverterList = restTemplate.getMessageConverters();
@@ -119,6 +122,24 @@ public class AppDynamicsClient {
 				.getBody();
 
 		return appDynamicsUtil.convertToHealthRuleViolationsJson(jsonString);
+	}
+	
+	public MetricReport getMetrics(String applicationName){
+		
+		UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(baseurl).path(applicationByList)
+				.path(metricUrl.replace("{applicationName}", applicationName + ""));
+		HttpHeaders headers = new HttpHeaders();
+		
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("output", "JSON");
+
+		String jsonString = restTemplate.exchange(uri.toUriString(), HttpMethod.GET, entity, String.class, map)
+				.getBody();
+		
+		return appDynamicsUtil.convertToMetricReportsJson(jsonString);
+		
 	}
 
 }
