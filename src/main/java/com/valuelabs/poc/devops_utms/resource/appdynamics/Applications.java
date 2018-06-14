@@ -11,6 +11,7 @@ public class Applications implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
 	private List<Application> application = new ArrayList<>();
 
 	public List<Application> getApplication() {

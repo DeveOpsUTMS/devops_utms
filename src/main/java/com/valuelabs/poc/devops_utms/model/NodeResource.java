@@ -1,26 +1,20 @@
-package com.valuelabs.poc.devops_utms.resource.appdynamics;
+package com.valuelabs.poc.devops_utms.model;
 
-import java.io.Serializable;
-
-public class Node implements Serializable{
+public class NodeResource {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private int id;
+	private int nodeId;
 	private String name;
 	private String type;
 	private int tierId;
 	private String tierName;
 	private String machineOSType;
 	
-	public int getId() {
-		return id;
+	
+	public int getNodeId() {
+		return nodeId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setNodeId(int nodeId) {
+		this.nodeId = nodeId;
 	}
 	public String getName() {
 		return name;

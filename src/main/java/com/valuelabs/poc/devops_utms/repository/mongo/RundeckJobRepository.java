@@ -1,10 +1,6 @@
 package com.valuelabs.poc.devops_utms.repository.mongo;
 
-import java.util.Date;
-
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 
 import com.valuelabs.poc.devops_utms.resource.RundeckJob;
 
