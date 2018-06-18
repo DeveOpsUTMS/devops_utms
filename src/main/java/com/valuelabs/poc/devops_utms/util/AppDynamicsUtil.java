@@ -55,12 +55,12 @@ public class AppDynamicsUtil {
 		return nodes;
 	}
 	
-	public Metrics convertToMetricReportsJson(String jsonString) {
+	public MetricReport convertToMetricReportsJson(String jsonString) {
 
 		Gson json = new GsonBuilder().create();
-		Type collectionType = new TypeToken<Metrics>() {
+		Type collectionType = new TypeToken<MetricReport>() {
 		}.getType();
-		Metrics metrics = json.fromJson(jsonString, collectionType);
+		MetricReport metrics = json.fromJson(jsonString, collectionType);
 
 		return metrics;
 	}

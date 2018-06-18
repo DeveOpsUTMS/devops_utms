@@ -125,7 +125,7 @@ public class AppDynamicsClient {
 		return appDynamicsUtil.convertToHealthRuleViolationsJson(jsonString);
 	}
 	
-	public Metrics getMetrics(String applicationName,String tierName,String nodeName){
+	public MetricReport getMetrics(String applicationName,String tierName,String nodeName){
 		
 		UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(baseurl).path(applicationByList)
 				.path(metricUrl.replace("{applicationName}", applicationName + "").replace("{tilerName}", tierName+"").replace("{nodeName}",nodeName+""));

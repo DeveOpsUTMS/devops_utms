@@ -72,15 +72,14 @@ public class AppDynamicService {
 						NodeResource nodeResource = new NodeResource();
 						nodeResource.setMachineOSType(node.getMachineOSType());
 						nodeResource.setName(nodeName);
-						Metrics metrics = appDynamicsClient.getMetrics(appName, tierName, nodeName);
-						MetricReport metricReport = new MetricReport();
-						metricReport.setMetrics(metrics);
+						MetricReport metrics = appDynamicsClient.getMetrics(appName, tierName, nodeName);
+						//metrics.setMetrics(metrics);
 						
 						nodeResource.setNodeId(node.getId());
 						nodeResource.setTierId(node.getTierId());
 						nodeResource.setTierName(tierName);
 						nodeResource.setType(node.getType());
-						nodeResource.setMetricReport(metricReport);
+						nodeResource.setMetricReport(metrics);
 						
 						nodeList.add(nodeResource);
 					}
