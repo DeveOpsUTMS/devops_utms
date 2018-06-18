@@ -11,6 +11,7 @@ import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.Metrics;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 @Component
 public class AppDynamicsUtil {
@@ -54,12 +55,12 @@ public class AppDynamicsUtil {
 		return nodes;
 	}
 	
-	public MetricReport convertToMetricReportsJson(String jsonString) {
+	public Metrics convertToMetricReportsJson(String jsonString) {
 
 		Gson json = new GsonBuilder().create();
-		Type collectionType = new TypeToken<MetricReport>() {
+		Type collectionType = new TypeToken<Metrics>() {
 		}.getType();
-		MetricReport metrics = json.fromJson(jsonString, collectionType);
+		Metrics metrics = json.fromJson(jsonString, collectionType);
 
 		return metrics;
 	}

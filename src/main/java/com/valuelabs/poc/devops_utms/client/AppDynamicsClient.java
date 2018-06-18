@@ -19,6 +19,7 @@ import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Applications;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.HealthRuleViolations;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.Metrics;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 import com.valuelabs.poc.devops_utms.util.AppDynamicsUtil;
 
@@ -124,10 +125,10 @@ public class AppDynamicsClient {
 		return appDynamicsUtil.convertToHealthRuleViolationsJson(jsonString);
 	}
 	
-	public MetricReport getMetrics(String applicationName){
+	public Metrics getMetrics(String applicationName,String tierName,String nodeName){
 		
 		UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(baseurl).path(applicationByList)
-				.path(metricUrl.replace("{applicationName}", applicationName + ""));
+				.path(metricUrl.replace("{applicationName}", applicationName + "").replace("{tilerName}", tierName+"").replace("{nodeName}",nodeName+""));
 		HttpHeaders headers = new HttpHeaders();
 		
 		HttpEntity<String> entity = new HttpEntity<String>(headers);

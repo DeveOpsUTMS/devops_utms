@@ -17,6 +17,8 @@ import com.valuelabs.poc.devops_utms.repository.mongo.AppDynamicsRepository;
 import com.valuelabs.poc.devops_utms.resource.Tier;
 import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Application;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.Metrics;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Node;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 
@@ -48,7 +50,6 @@ public class AppDynamicService {
 			Tiers tiers = appDynamicsClient.getTiers(applicationId);
 			
 			TiersResource tiersResource = new TiersResource();
-			//tiersResource.setTierList(tiers.getTierList());
 			
 			List<TierResource> tierList = new ArrayList<>();
 			
@@ -65,13 +66,21 @@ public class AppDynamicService {
 				List<NodeResource> nodeList = new ArrayList<>();
 				for(Node node : nodes.getNodes()){
 					if(node.getTierId() == tierResource.getTierId()){
+						String appName = application.getName();
+						String tierName = tier.getName();
+						String nodeName = node.getName();
 						NodeResource nodeResource = new NodeResource();
 						nodeResource.setMachineOSType(node.getMachineOSType());
-						nodeResource.setName(node.getName());
+						nodeResource.setName(nodeName);
+						Metrics metrics = appDynamicsClient.getMetrics(appName, tierName, nodeName);
+						MetricReport metricReport = new MetricReport();
+						metricReport.setMetrics(metrics);
+						
 						nodeResource.setNodeId(node.getId());
 						nodeResource.setTierId(node.getTierId());
-						nodeResource.setTierName(node.getTierName());
+						nodeResource.setTierName(tierName);
 						nodeResource.setType(node.getType());
+						nodeResource.setMetricReport(metricReport);
 						
 						nodeList.add(nodeResource);
 					}

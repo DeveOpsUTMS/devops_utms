@@ -1,5 +1,7 @@
 package com.valuelabs.poc.devops_utms.model;
 
+import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
+
 public class NodeResource {
 	
 	private int nodeId;
@@ -8,8 +10,15 @@ public class NodeResource {
 	private int tierId;
 	private String tierName;
 	private String machineOSType;
+	private MetricReport metricReport;//for loading metrics
 	
 	
+	public MetricReport getMetricReport() {
+		return metricReport;
+	}
+	public void setMetricReport(MetricReport metricReport) {
+		this.metricReport = metricReport;
+	}
 	public int getNodeId() {
 		return nodeId;
 	}
