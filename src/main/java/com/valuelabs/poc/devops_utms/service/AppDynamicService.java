@@ -14,6 +14,7 @@ import com.valuelabs.poc.devops_utms.model.NodesResource;
 import com.valuelabs.poc.devops_utms.model.TierResource;
 import com.valuelabs.poc.devops_utms.model.TiersResource;
 import com.valuelabs.poc.devops_utms.repository.mongo.AppDynamicsRepository;
+import com.valuelabs.poc.devops_utms.resource.RundeckJob;
 import com.valuelabs.poc.devops_utms.resource.Tier;
 import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Application;
@@ -24,48 +25,48 @@ import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 
 @Service
 public class AppDynamicService {
-	
+
 	@Autowired
 	private AppDynamicsClient appDynamicsClient;
-	
+
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
+
 	@Autowired
 	private AppDynamicsRepository appDynamicsRepository;
-	
-	public void getMetricData(){
-		
+
+	public void getMetricData() {
+
 		MetricData mdata = new MetricData();
-		
+
 		List<Application> appList = appDynamicsClient.getApplications().getApplication();
-		
-		for(Application application:appList){
-			
-			//Retriving application info
+
+		for (Application application : appList) {
+
+			// Retriving application info
 			int applicationId = application.getId();
 			mdata.setApplicationId(applicationId);
 			mdata.setDescription(application.getDescription());
 			mdata.setName(application.getName());
 			Tiers tiers = appDynamicsClient.getTiers(applicationId);
-			
+
 			TiersResource tiersResource = new TiersResource();
-			
+
 			List<TierResource> tierList = new ArrayList<>();
-			
-			for(Tier tier:tiers.getTierList()){
+
+			for (Tier tier : tiers.getTierList()) {
 				TierResource tierResource = new TierResource();
 				tierResource.setAgentType(tier.getAgentType());
 				tierResource.setName(tier.getName());
 				tierResource.setNumberOfNodes(tier.getNumberOfNodes());
 				tierResource.setTierId(tier.getId());
 				tierResource.setType(tier.getType());
-				
+
 				Nodes nodes = appDynamicsClient.getNodes(applicationId);
 				NodesResource nodesResource = new NodesResource();
 				List<NodeResource> nodeList = new ArrayList<>();
-				for(Node node : nodes.getNodes()){
-					if(node.getTierId() == tierResource.getTierId()){
+				for (Node node : nodes.getNodes()) {
+					if (node.getTierId() == tierResource.getTierId()) {
 						String appName = application.getName();
 						String tierName = tier.getName();
 						String nodeName = node.getName();
@@ -73,32 +74,47 @@ public class AppDynamicService {
 						nodeResource.setMachineOSType(node.getMachineOSType());
 						nodeResource.setName(nodeName);
 						MetricReport metrics = appDynamicsClient.getMetrics(appName, tierName, nodeName);
-						//metrics.setMetrics(metrics);
-						
+						// metrics.setMetrics(metrics);
+
 						nodeResource.setNodeId(node.getId());
 						nodeResource.setTierId(node.getTierId());
 						nodeResource.setTierName(tierName);
 						nodeResource.setType(node.getType());
 						nodeResource.setMetricReport(metrics);
-						
+
 						nodeList.add(nodeResource);
 					}
-					
-					
+
 				}
 				nodesResource.setNodeList(nodeList);
 				tierResource.setNodesResource(nodesResource);
 				tierList.add(tierResource);
 			}
 			tiersResource.setTierList(tierList);
-			
-			
-		}
-		
-		appDynamicsRepository.save(mdata);
-		
-	}
-	
 
-	
+		}
+
+		appDynamicsRepository.save(mdata);
+
+	}
+
+	// This will retrive all appDynamics metrics
+	public List<MetricData> retriveMetricsData() {
+		List<MetricData> metricList = new ArrayList<>();
+
+		metricList.addAll((List<MetricData>) appDynamicsRepository.findAll());
+
+		return metricList;
+	}
+
+	public List<MetricData> getMetricsByTierId() {
+
+		return null;
+	}
+
+	public List<MetricData> getMetricsByNodeId() {
+
+		return null;
+	}
+
 }
