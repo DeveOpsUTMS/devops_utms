@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.valuelabs.poc.devops_utms.client.AppDynamicsClient;
@@ -14,12 +17,11 @@ import com.valuelabs.poc.devops_utms.model.NodesResource;
 import com.valuelabs.poc.devops_utms.model.TierResource;
 import com.valuelabs.poc.devops_utms.model.TiersResource;
 import com.valuelabs.poc.devops_utms.repository.mongo.AppDynamicsRepository;
-import com.valuelabs.poc.devops_utms.resource.RundeckJob;
 import com.valuelabs.poc.devops_utms.resource.Tier;
 import com.valuelabs.poc.devops_utms.resource.Tiers;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Application;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricReport;
-import com.valuelabs.poc.devops_utms.resource.appdynamics.Metrics;
+import com.valuelabs.poc.devops_utms.resource.appdynamics.MetricResource;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Node;
 import com.valuelabs.poc.devops_utms.resource.appdynamics.Nodes;
 
@@ -107,11 +109,20 @@ public class AppDynamicService {
 		return metricList;
 	}
 
-	public List<MetricData> getMetricsByTierId() {
+	public List<MetricResource> getMetricsByTierId(String tierId) {
+		List<MetricResource> metricList = new ArrayList<>();
+		Aggregation aggregation = Aggregation.newAggregation(Aggregation.project("applicationId", "name", "tiers"),
+				Aggregation.unwind("tiers.tierList"),
+				Aggregation.match(Criteria.where("tiers.tierList.tierId").is(tierId)));
+		
+		AggregationResults<MetricResource> aggregationResults = mongoTemplate.aggregate(aggregation, "metricData",
+				MetricResource.class);
+		metricList.addAll(aggregationResults.getMappedResults());
 
-		return null;
+		return metricList;
 	}
 
+	//by using job id
 	public List<MetricData> getMetricsByNodeId() {
 
 		return null;
