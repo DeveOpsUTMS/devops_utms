@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,12 @@ public class SchedularController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> getException(Exception e){
+		return new ResponseEntity<>(e.getLocalizedMessage(),HttpStatus.BAD_GATEWAY);
+		
 	}
 
 }
