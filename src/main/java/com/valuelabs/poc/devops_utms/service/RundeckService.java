@@ -56,7 +56,6 @@ public class RundeckService {
 			project.setUrl(projects.getUrl());
 			project.setDescription(projects.getDescription());
 
-			
 			List<Jobs> jobsList = new ArrayList<>();
 			jobsList.addAll(rundeckClient.getJobs(project.getName()));
 
