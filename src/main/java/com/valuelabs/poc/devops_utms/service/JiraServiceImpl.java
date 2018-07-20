@@ -169,7 +169,7 @@ public class JiraServiceImpl implements JiraService {
 	}
 
 	@Override
-	@Scheduled(fixedRate = 36000)
+	@Scheduled(fixedRate = 6000)
 	public List<JiraBoard> syncJiraInfo() throws Exception {
 
 		List<JiraBoard> jobBoardsList = new ArrayList<>();
