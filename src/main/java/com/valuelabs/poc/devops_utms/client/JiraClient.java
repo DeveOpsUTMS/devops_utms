@@ -24,7 +24,6 @@ import com.valuelabs.poc.devops_utms.util.JiraUtil;
 @Component
 public class JiraClient implements CommandLineRunner{
 	
-	@Autowired
 	private static RestTemplate restTemplate = new RestTemplate();
 	
 	@Autowired
