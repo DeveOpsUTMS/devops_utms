@@ -24,6 +24,7 @@ public class JenkinsController {
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 
 	@RequestMapping(value = "/getBuildDetails", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getBuildDetails(){
